@@ -3,6 +3,7 @@ nixPkgs = ["...", "python311Packages.supervisor"]
 
 [phases.build]
 cmds = [
+    "npm run build:ssr",
     "mkdir -p /etc/supervisor/conf.d/",
     "cp /assets/worker-*.conf /etc/supervisor/conf.d/",
     "cp /assets/supervisord.conf /etc/supervisord.conf",
@@ -97,8 +98,11 @@ pm.min_spare_servers = 4
 pm.max_spare_servers = 32
 pm.start_servers = 18
 clear_env = no
-php_admin_value[post_max_size] = 35M
-php_admin_value[upload_max_filesize] = 30M
+
+php_admin_value[memory_limit] = 512M
+php_admin_value[max_execution_time] = 60
+php_admin_value[max_input_time] = 60
+php_admin_value[post_max_size] = 256M
 '''
 
 "nginx.template.conf" = '''
